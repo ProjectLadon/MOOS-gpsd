@@ -10,7 +10,7 @@ This is a gpsd client for MOOS. It is intended to re-transmit every type of gpsd
 ## Configuration Parameters
 * host -- The host of the desired gpsd server, as a text field. Defaults to "localhost". 
 * port -- The port the socket interface is listening on. Defaults to DEFAULT_GPSD_PORT.
-* deviation_update -- the number of seconds to wait between updates to GPSD_deviation.
+* deviation_update -- the number of seconds to wait between updates to GPSD_deviation. Defaults to 600.
 
 ## Outgoing Variables
 * GPSD_json -- A STRING that contains each GPSd packet in turn.
