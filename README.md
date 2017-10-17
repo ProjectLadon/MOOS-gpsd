@@ -1,5 +1,5 @@
 # MOOS-pGPSd
-This is a gpsd client for MOOS. It is intended to re-transmit every type of gpsd packet, including AIS. It is intended to work with both sockets and the local shared memory interface. It also delivers the 
+This is a gpsd client for MOOS. It is intended to re-transmit every type of gpsd packet, including AIS. It is intended to work with the socket interface. It delivers both the raw JSON and key  
 
 ## Dependencies
 * MOOS-IvP
@@ -8,9 +8,9 @@ This is a gpsd client for MOOS. It is intended to re-transmit every type of gpsd
 * http://www.catb.org/gpsd/ -- provides client interface to GPSd
 
 ## Configuration Parameters
-* host -- The host of the desired gpsd server, as a text field. Defaults to "localhost". If the value is "sharedmem", MOOS-gpsd will use the shared memory interface rather than the sockets interface.
+* host -- The host of the desired gpsd server, as a text field. Defaults to "localhost". 
 * port -- The port the socket interface is listening on. Defaults to DEFAULT_GPSD_PORT.
-* deviation_update -- the number of seconds to wait between updates to GPSD_deviation
+* deviation_update -- the number of seconds to wait between updates to GPSD_deviation.
 
 ## Outgoing Variables
 * GPSD_json -- A STRING that contains each GPSd packet in turn.
