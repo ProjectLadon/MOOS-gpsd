@@ -37,33 +37,39 @@ int main(int argc, char *argv[])
   for(int i=1; i<argc; i++) {
     string argi = argv[i];
     if((argi=="-v") || (argi=="--version") || (argi=="-version"))
-      showReleaseInfoAndExit();
+      {showReleaseInfoAndExit();}
     else if((argi=="-e") || (argi=="--example") || (argi=="-example"))
-      showExampleConfigAndExit();
+      {showExampleConfigAndExit();}
     else if((argi == "-h") || (argi == "--help") || (argi=="-help"))
-      showHelpAndExit();
+      {showHelpAndExit();}
     else if((argi == "-i") || (argi == "--interface"))
-      showInterfaceAndExit();
+      {showInterfaceAndExit();}
     else if(strEnds(argi, ".moos") || strEnds(argi, ".moos++"))
-      mission_file = argv[i];
+      {mission_file = argv[i];}
     else if(strBegins(argi, "--alias="))
-      run_command = argi.substr(8);
+      {run_command = argi.substr(8);}
     else if(strBegins(argi, "--GPSD_json="))
-      json_var = argi.substr(12);
+      {json_var = argi.substr(12);}
     else if(strBegins(argi, "--GPSD_latitude="))
-      lat_var = argi.substr(16);
+      {lat_var = argi.substr(16);}
     else if(strBegins(argi, "--GPSD_longitude="))
-      lon_var = argi.substr(17);
+      {lon_var = argi.substr(17);}
     else if(strBegins(argi, "--GPSD_elevation="))
-      ele_var = argi.substr(17);
+      {ele_var = argi.substr(17);}
     else if(strBegins(argi, "--GPSD_speed="))
-      spd_var = argi.substr(13);
+      {spd_var = argi.substr(13);}
     else if(strBegins(argi, "--GPSD_track="))
-      track_var = argi.substr(13);
+      {track_var = argi.substr(13);}
     else if(strBegins(argi, "--GPSD_deviation="))
-      dev_var = argi.substr(17);
+      {dev_var = argi.substr(17);}
+    else if(strBegins(argi, "--deviation_update="))
+      {dev_update_str = argi.substr(19);}
+    else if(strBegins(argi, "--host="))
+      {host = argi.substr(7);}
+    else if(strBegins(argi, "--port="))
+      {port_str = argi.substr(7);}
     else if(i==2)
-      run_command = argi;
+      {run_command = argi;}
   }
   
   if(mission_file == "")
@@ -76,6 +82,7 @@ int main(int argc, char *argv[])
   PGPSD_MOOSApp gps(host, port_str);	
   gps.setVars(json_var, lat_var, lon_var, ele_var,
               spd_var, track_var, dev_var);
+  gps.setDeviationUpdate(dev_update_str);
 
   gps.Run(run_command.c_str(), mission_file.c_str());
 

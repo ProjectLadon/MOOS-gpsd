@@ -1,37 +1,28 @@
 /*****************************************************************/
-/*    NAME: Michael Benjamin                                     */
-/*    ORGN: Dept of Mechanical Eng / CSAIL, MIT Cambridge MA     */
-/*    FILE: Relayer.h                                            */
-/*    DATE: Jun 26th 2008                                        */
+/*    NAME: Pierce Nichols                                       */
+/*    ORGN: Ladon Project                                        */
+/*    FILE: PGPSD_MOOSApp.h                                      */
+/*    DATE: Oct 16 2017                                          */
 /*                                                               */
-/* This file is part of MOOS-IvP                                 */
+/* This file is part of the Ladon Project stack                  */
 /*                                                               */
-/* MOOS-IvP is free software: you can redistribute it and/or     */
-/* modify it under the terms of the GNU General Public License   */
-/* as published by the Free Software Foundation, either version  */
-/* 3 of the License, or (at your option) any later version.      */
-/*                                                               */
-/* MOOS-IvP is distributed in the hope that it will be useful,   */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty   */
-/* of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See  */
-/* the GNU General Public License for more details.              */
-/*                                                               */
-/* You should have received a copy of the GNU General Public     */
-/* License along with MOOS-IvP.  If not, see                     */
-/* <http://www.gnu.org/licenses/>.                               */
 /*****************************************************************/
 
 #ifndef PGPSD_MOOSAPP_HEADER
 #define PGPSD_MOOSAPP_HEADER
 
 #include "MOOS/libMOOS/MOOSLib.h"
+#include <chrono>
+#include <ratio>
 
 class pGPSd_MOOSApp : public CMOOSApp
 {
     public:
-        pGPSd_MOOSApp();
+        pGPSd_MOOSApp() = delete;
         pGPSd_MOOSApp(std::string host, std::string port_str);
-        virtual ~pGPSd_MOOSApp() {}
+        virtual ~pGPSd_MOOSApp() {
+            if (m_gpsd_receiver) delete m_gpsd_receiver;
+        }
 
         bool OnNewMail(MOOSMSG_LIST &NewMail);
         bool Iterate();
@@ -44,9 +35,7 @@ class pGPSd_MOOSApp : public CMOOSApp
                       std::string spd,
                       std::string track,
                       std::string dev);
-
-    protected:
-        void RegisterVariables();
+        void setDeviationUpdate (std::string period);
 
     protected: // State variables
         double m_mag_deviation = 0;
@@ -61,7 +50,12 @@ class pGPSd_MOOSApp : public CMOOSApp
         std::string m_track_var; 
         std::string m_dev_var;
 
-        gpsmm       m_gps_receiver;
+        std:string m_gpsd_host;
+        int        m_gpsd_port;
+
+        gpsmm*     m_gpsd_receiver;
+
+        std::chrono::duration<double, std::chrono::seconds> m_dev_duration;
 
         double      m_start_time_postings;
         double      m_start_time_iterations;
