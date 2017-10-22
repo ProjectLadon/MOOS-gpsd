@@ -32,8 +32,16 @@ GPSd::GPSd() {
     p_gpsdata         = NULL;
     m_mag_declination = NAN;
     m_dec_duration    = 600;
-    m_last_declination_time = MOOSTime();;
+    m_last_declination_time = 0;
     m_buf             = "";
+    m_json_output     = "";
+    m_mag_model       = "emm2017";
+    m_gps_mode        = 0;
+    m_gps_alt         = 0;
+    m_gps_lon         = 0;
+    m_gps_alt         = 0;
+    m_gps_spd         = 0;
+    m_gps_trk         = 0;  
 }
 
 //---------------------------------------------------------
@@ -83,23 +91,29 @@ bool GPSd::Iterate()
   p_gpsdata = p_gpsd_receiver->read();  // read in the data
   m_buf += p_gpsd_receiver->data();     // grab the data buffer
   if ((p_gpsdata != NULL) && (p_gpsdata->set)) {
-    Notify("GPSD_mode", p_gpsdata->fix.mode);
-    Notify("GPSD_latitude", p_gpsdata->fix.latitude);
-    Notify("GPSD_longitude", p_gpsdata->fix.longitude);
-    Notify("GPSD_elevation", p_gpsdata->fix.altitude);
-    Notify("GPSD_speed", p_gpsdata->fix.speed);
-    Notify("GPSD_track", p_gpsdata->fix.track); 
+    m_gps_mode                = p_gpsdata->fix.mode;
+    m_gps_lat                 = p_gpsdata->fix.latitude;
+    m_gps_lon                 = p_gpsdata->fix.longitude;
+    m_gps_alt                 = p_gpsdata->fix.altitude ;
+    m_gps_spd                 = p_gpsdata->fix.speed;
+    m_gps_trk                 = p_gpsdata->fix.track;
+    Notify("GPSD_mode",       m_gps_mode);
+    Notify("GPSD_latitude",   m_gps_lat);
+    Notify("GPSD_longitude",  m_gps_lon);
+    Notify("GPSD_elevation",  m_gps_alt);
+    Notify("GPSD_speed",      m_gps_spd);
+    Notify("GPSD_track",      m_gps_trk);
   }
-  string json_output = "[";
+  m_json_output = "[";
   size_t index = 0;
   while ((index = m_buf.find("\n")) != string::npos) {
-    json_output += m_buf.substr(0, index);
+    m_json_output += m_buf.substr(0, index);
     m_buf = m_buf.substr(index + 1);
-    json_output += ", ";
+    m_json_output += ", ";
   }
-  json_output = "]";
+  m_json_output = "]";
 
-  Notify("GPSD_json", json_output);
+  Notify("GPSD_json", m_json_output);
 
   if (((MOOSTime() - m_last_declination_time) > m_dec_duration) &&  // check if it's time to do another declination check
       (p_gpsdata != NULL) && (p_gpsdata->set) &&                  // check that we have position data
@@ -139,6 +153,9 @@ bool GPSd::OnStartUp()
     } else if (param == "PORT") {
       this->m_gpsd_port = value;
       handled = true;
+    } else if (param == "MAG_MODEL") {
+      this->m_mag_model = value;
+      handled = true;
     } else if (param == "DECLINATION_UPDATE") {
       this->m_dec_duration = atof(value.c_str());
       handled = true;
@@ -174,19 +191,29 @@ bool GPSd::buildReport()
   m_msgs << "File: GPSd.cpp                               \n";
   m_msgs << "============================================ \n";
 
-  ACTable actab(4);
-  actab << "Alpha | Bravo | Charlie | Delta";
+  ACTable actab(8);
+  actab << "Mode | Lat | Lon | Alt | Speed | Track | Declination | JSON";
   actab.addHeaderLines();
-  actab << "one" << "two" << "three" << "four";
+  actab << m_gps_mode;
+  actab << m_gps_lat;
+  actab << m_gps_lon;
+  actab << m_gps_alt;
+  actab << m_gps_spd;
+  actab << m_gps_trk;
+  actab << m_json_output;
   m_msgs << actab.getFormattedString();
 
   return(true);
 }
 
+
+//------------------------------------------------------------
+// Procedure: getDeclination()
+
 double GPSd::getDeclination(double lat, double lon) {
   time_t tt = system_clock::to_time_t(system_clock::now());
   tm utc_tm = *gmtime(&tt);
-  GeographicLib::MagneticModel mag("emm2015");
+  GeographicLib::MagneticModel mag(m_mag_model.c_str());
   // intermediate values
   double Bx, By, Bz, H;
   // output values

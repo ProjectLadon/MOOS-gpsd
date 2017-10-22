@@ -35,6 +35,7 @@ class GPSd : public AppCastingMOOSApp
  private: // Configuration variables
     std::string m_gpsd_host;
     std::string m_gpsd_port;
+    std::string m_mag_model;
 
     gpsmm*      p_gpsd_receiver;
 
@@ -44,6 +45,13 @@ class GPSd : public AppCastingMOOSApp
  	  double      m_mag_declination;
     gps_data_t* p_gpsdata;
     std::string m_buf;
+    std::string m_json_output;
+    int         m_gps_mode;
+    double      m_gps_lat;
+    double      m_gps_lon;
+    double      m_gps_alt;
+    double      m_gps_spd;
+    double      m_gps_trk;
     double      m_last_declination_time;
 };
 
