@@ -31,8 +31,9 @@
 *.out
 *.app
 
-# CMake
+# CMake & executables
 cmake_install.cmake
 Makefile
 CMakeCache.txt
 CMakeFiles
+pGPSd

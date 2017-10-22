@@ -9,6 +9,7 @@
 #define GPSd_HEADER
 
 #include "MOOS/libMOOS/Thirdparty/AppCasting/AppCastingMOOSApp.h"
+#include "libgpsmm.h"
 #include <string>
 #include <chrono>
 
@@ -32,18 +33,18 @@ class GPSd : public AppCastingMOOSApp
 	double getDeclination(double lat, double lon);
 
  private: // Configuration variables
-    std:string 	m_gpsd_host;
-    int        	m_gpsd_port;
+    std::string m_gpsd_host;
+    std::string m_gpsd_port;
 
-    gpsmm*     	p_gpsd_receiver;
+    gpsmm*      p_gpsd_receiver;
 
-    double 		m_dec_duration;
+    double      m_dec_duration;
 
  private: // State variables
- 	double 		m_mag_declination;
+ 	  double      m_mag_declination;
     gps_data_t* p_gpsdata;
     std::string m_buf;
-    double 		m_last_declination_time;
+    double      m_last_declination_time;
 };
 
 #endif 

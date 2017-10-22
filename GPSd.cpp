@@ -30,7 +30,7 @@ GPSd::GPSd() {
     m_gpsd_host       = "localhost";
     m_gpsd_port       = DEFAULT_GPSD_PORT;
     p_gpsdata         = NULL;
-    m_mag_declination   = NAN;
+    m_mag_declination = NAN;
     m_dec_duration    = 600;
     m_last_declination_time = MOOSTime();;
     m_buf             = "";
@@ -86,7 +86,7 @@ bool GPSd::Iterate()
     Notify("GPSD_mode", p_gpsdata->fix.mode);
     Notify("GPSD_latitude", p_gpsdata->fix.latitude);
     Notify("GPSD_longitude", p_gpsdata->fix.longitude);
-    Notify("GPSD_elevation", p_gpsdata->fix.elevation);
+    Notify("GPSD_elevation", p_gpsdata->fix.altitude);
     Notify("GPSD_speed", p_gpsdata->fix.speed);
     Notify("GPSD_track", p_gpsdata->fix.track); 
   }
@@ -97,7 +97,7 @@ bool GPSd::Iterate()
     m_buf = m_buf.substr(index + 1);
     json_output += ", ";
   }
-  string json_output = "]";
+  json_output = "]";
 
   Notify("GPSD_json", json_output);
 
@@ -137,10 +137,10 @@ bool GPSd::OnStartUp()
       this->m_gpsd_host = value;
       handled = true;
     } else if (param == "PORT") {
-      this->m_gpsd_port = atoi(value);
+      this->m_gpsd_port = value;
       handled = true;
     } else if (param == "DECLINATION_UPDATE") {
-      this->m_dec_duration = atof(value);
+      this->m_dec_duration = atof(value.c_str());
       handled = true;
     }
 
@@ -149,7 +149,7 @@ bool GPSd::OnStartUp()
 
   }
 
-  p_gpsd_receiver = new gpsmm(m_gpsd_host, m_gpsd_port);
+  p_gpsd_receiver = new gpsmm(m_gpsd_host.c_str(), m_gpsd_port.c_str());
   p_gpsd_receiver->stream(WATCH_ENABLE|WATCH_JSON);
   registerVariables();	
   return(true);
@@ -186,7 +186,7 @@ bool GPSd::buildReport()
 double GPSd::getDeclination(double lat, double lon) {
   time_t tt = system_clock::to_time_t(system_clock::now());
   tm utc_tm = *gmtime(&tt);
-  MagneticModel mag("emm2015");
+  GeographicLib::MagneticModel mag("emm2015");
   // intermediate values
   double Bx, By, Bz, H;
   // output values
@@ -196,7 +196,7 @@ double GPSd::getDeclination(double lat, double lon) {
   mag(utc_tm.tm_year + 1900, lat, lon, 0, Bx, By, Bz);
   
   // convert intermediate representation to the output
-  MagneticModel::FieldComponents(Bx, By, Bz, H, strength, declination, inclination);
+  GeographicLib::MagneticModel::FieldComponents(Bx, By, Bz, H, strength, declination, inclination);
 
   return declination;
 }
