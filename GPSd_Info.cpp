@@ -119,7 +119,7 @@ void showInterfaceAndExit()
   blk("                degrees clockwise from true north.              ");
   blk("  GPSD_declination -- A DOUBLE containing the magnetic          ");
   blk("                      declination, in degrees from true.        "); 
-  blk("                                                                ");                                                             ");
+  blk("                                                                ");
   exit(0);
 }
 
