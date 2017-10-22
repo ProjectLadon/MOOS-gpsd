@@ -4,6 +4,6 @@
 ProcessConfig = pGPSd
 {
    AppTick   = 4
-   CommsTick = 4
+   CommsTick = 1
 }
 
