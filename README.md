@@ -11,7 +11,7 @@ This is a gpsd client for MOOS. It is intended to re-transmit every type of gpsd
 * host -- The host of the desired gpsd server, as a text field. Defaults to "localhost". 
 * port -- The port the socket interface is listening on. Defaults to DEFAULT_GPSD_PORT.
 * declination_update -- the number of seconds to wait between updates to GPSD_declination. Defaults to 600.
-* magnetic_model -- the name of the magnetic model to use. Defaults to emm2017
+* magnetic_model -- the name of the magnetic model to use. Defaults to emm2015.
 
 ## Outgoing Variables
 * GPSD_json -- A STRING that contains a JSON array of all gpsd packets received since last iteration.

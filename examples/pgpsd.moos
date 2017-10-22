@@ -10,7 +10,7 @@ ProcessConfig = ANTLER
 
   Run = MOOSDB	 @ NewConsole = false
   Run = pLogger	 @ NewConsole = false
-  Run = pGPSd	 @ NewConsole = true 
+  Run = pGPSd	 @ NewConsole = false 
   Run = uXMS	 @ NewConsole = true
 }
 

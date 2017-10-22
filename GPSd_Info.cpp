@@ -75,7 +75,7 @@ void showExampleConfigAndExit()
   blk("  AppTick   = 4                                                 ");
   blk("  CommsTick = 1                                                 ");
   blk("  host = localhost                                              ");
-  blk("  mag_model = emm2017                                           ");
+  blk("  mag_model = emm2015                                           ");
   blk("  declination_update = 600                                      ");
   blk("  port = 2947                                                   ");
   blk("                                                                ");

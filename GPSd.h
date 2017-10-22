@@ -12,6 +12,7 @@
 #include "libgpsmm.h"
 #include <string>
 #include <chrono>
+#include <sstream>
 
 class GPSd : public AppCastingMOOSApp
 {
@@ -36,15 +37,14 @@ class GPSd : public AppCastingMOOSApp
     std::string m_gpsd_host;
     std::string m_gpsd_port;
     std::string m_mag_model;
-
     gpsmm*      p_gpsd_receiver;
-
     double      m_dec_duration;
+    static const int c_buf_len = 10000;
 
  private: // State variables
  	  double      m_mag_declination;
     gps_data_t* p_gpsdata;
-    std::string m_buf;
+    //std::stringstream m_buf;
     std::string m_json_output;
     int         m_gps_mode;
     double      m_gps_lat;

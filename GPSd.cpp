@@ -33,9 +33,9 @@ GPSd::GPSd() {
     m_mag_declination = NAN;
     m_dec_duration    = 600;
     m_last_declination_time = 0;
-    m_buf             = "";
+    //m_buf.str()       = "";
     m_json_output     = "";
-    m_mag_model       = "emm2017";
+    m_mag_model       = "emm2015";
     m_gps_mode        = 0;
     m_gps_alt         = 0;
     m_gps_lon         = 0;
@@ -64,8 +64,9 @@ bool GPSd::OnNewMail(MOOSMSG_LIST &NewMail)
   for(p=NewMail.begin(); p!=NewMail.end(); p++) {
     CMOOSMsg &msg = *p;
     string key    = msg.GetKey();
-    if(key != "APPCAST_REQ") // handled by AppCastingMOOSApp
+    if(key != "APPCAST_REQ") {// handled by AppCastingMOOSApp
        reportRunWarning("Unhandled Mail: " + key);
+     }
    }
 	
    return(true);
@@ -89,7 +90,13 @@ bool GPSd::Iterate()
   AppCastingMOOSApp::Iterate();
 
   p_gpsdata = p_gpsd_receiver->read();  // read in the data
-  m_buf += p_gpsd_receiver->data();     // grab the data buffer
+  //m_buf << p_gpsd_receiver->data();     // grab the data buffer
+  //cerr << "**********************************************************" << endl;
+  //cerr << "Got buffer: " << endl;
+  //cerr << "**********************************************************" << endl;
+  //cerr << m_buf.str() << endl;
+  //cerr << p_gpsd_receiver->data() << endl;
+  //cerr << "**********************************************************" << endl;
   if ((p_gpsdata != NULL) && (p_gpsdata->set)) {
     m_gps_mode                = p_gpsdata->fix.mode;
     m_gps_lat                 = p_gpsdata->fix.latitude;
@@ -103,17 +110,9 @@ bool GPSd::Iterate()
     Notify("GPSD_elevation",  m_gps_alt);
     Notify("GPSD_speed",      m_gps_spd);
     Notify("GPSD_track",      m_gps_trk);
+    m_json_output = p_gpsd_receiver->data(); 
+    Notify("GPSD_json", m_json_output);
   }
-  m_json_output = "[";
-  size_t index = 0;
-  while ((index = m_buf.find("\n")) != string::npos) {
-    m_json_output += m_buf.substr(0, index);
-    m_buf = m_buf.substr(index + 1);
-    m_json_output += ", ";
-  }
-  m_json_output = "]";
-
-  Notify("GPSD_json", m_json_output);
 
   if (((MOOSTime() - m_last_declination_time) > m_dec_duration) &&  // check if it's time to do another declination check
       (p_gpsdata != NULL) && (p_gpsdata->set) &&                  // check that we have position data
@@ -121,6 +120,8 @@ bool GPSd::Iterate()
     m_last_declination_time = MOOSTime();
     m_mag_declination = getDeclination(p_gpsdata->fix.latitude, p_gpsdata->fix.longitude);
   }
+
+  p_gpsd_receiver->clear_fix();
 
   AppCastingMOOSApp::PostReport();
   return(true);
@@ -168,6 +169,9 @@ bool GPSd::OnStartUp()
 
   p_gpsd_receiver = new gpsmm(m_gpsd_host.c_str(), m_gpsd_port.c_str());
   p_gpsd_receiver->stream(WATCH_ENABLE|WATCH_JSON);
+  p_gpsdata = p_gpsd_receiver->read();
+  p_gpsd_receiver->clear_fix();
+
   registerVariables();	
   return(true);
 }
