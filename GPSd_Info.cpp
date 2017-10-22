@@ -20,10 +20,11 @@ void showSynopsis()
 {
   blk("SYNOPSIS:                                                       ");
   blk("------------------------------------                            ");
-  blk("  The pGPSd application is used for               ");
-  blk("                                                                ");
-  blk("                                                                ");
-  blk("                                                                ");
+  blk("  The pGPSd application is used for interfacing a gpsd instance ");
+  blk(" to a MOOS community. It pulls out the position, speed, mode,   ");
+  blk(" and altitude as well as the JSON sentences transmitted by the  ");
+  blk(" gpsd service. These sentences may include AIS transmissions if ");
+  blk(" a proper receiver has been attached to the host and configured.");
   blk("                                                                ");
 }
 
@@ -72,7 +73,11 @@ void showExampleConfigAndExit()
   blk("ProcessConfig = pGPSd                              ");
   blk("{                                                               ");
   blk("  AppTick   = 4                                                 ");
-  blk("  CommsTick = 4                                                 ");
+  blk("  CommsTick = 1                                                 ");
+  blk("  host = localhost                                              ");
+  blk("  mag_model = emm2017                                           ");
+  blk("  declination_update = 600                                      ");
+  blk("  port = 2947                                                   ");
   blk("                                                                ");
   blk("}                                                               ");
   blk("                                                                ");
@@ -94,13 +99,27 @@ void showInterfaceAndExit()
   blk("                                                                ");
   blk("SUBSCRIPTIONS:                                                  ");
   blk("------------------------------------                            ");
-  blk("  NODE_MESSAGE = src_node=alpha,dest_node=bravo,var_name=FOO,   ");
-  blk("                 string_val=BAR                                 ");
+  blk("  pGPSd does not subscribe to any variables                     ");
   blk("                                                                ");
   blk("PUBLICATIONS:                                                   ");
   blk("------------------------------------                            ");
   blk("  Publications are determined by the node message content.      ");
-  blk("                                                                ");
+  blk("  GPSD_json -- A STRING that contains a JSON array of all gpsd  ");
+  blk("               packets received since last iteration.           ");
+  blk("  GPSD_mode -- A DOUBLE containing the current GPS fix mode.    ");
+  blk("  GPSD_latitude -- A DOUBLE containing the latitude in decimal  ");
+  blk("                   degrees.                                     ");
+  blk("  GPSD_longitude -- A DOUBLE containing the longitude in decimal");
+  blk("                    degrees.                                    ");
+  blk("  GPSD_elevation -- A DOUBLE containing the elevation in meters ");
+  blk("                    above MSL.                                  "); 
+  blk("  GPSD_speed -- A DOUBLE containing the speed over ground in    ");
+  blk("                meters per second.                              ");
+  blk("  GPSD_track -- A DOUBLE containing the course over ground in   ");
+  blk("                degrees clockwise from true north.              ");
+  blk("  GPSD_declination -- A DOUBLE containing the magnetic          ");
+  blk("                      declination, in degrees from true.        "); 
+  blk("                                                                ");                                                             ");
   exit(0);
 }
 
