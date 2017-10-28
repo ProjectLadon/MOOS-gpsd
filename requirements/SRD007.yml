@@ -1,0 +1,11 @@
+active: true
+derived: false
+level: 1.5
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+    pGPSd **shall** calculate magnetic declination using the magnetic model specified in the magnetic model configuration parameter. This **shall** default to emm2015.
+
+    If loading the magnetic model fails, **pGPSd** shall log an error and exit. 

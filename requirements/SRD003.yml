@@ -6,4 +6,4 @@ normative: true
 ref: ''
 reviewed: null
 text: |
-    
+    pGPSd **shall** connect to a gpsd instance specified by the configuration parameters host and port. 'host' **shall** default to localhost and 'port' **shall** default to the value specified by the DEFAULT_GPSD_PORT macro. 
