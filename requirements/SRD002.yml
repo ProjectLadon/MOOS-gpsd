@@ -1,0 +1,18 @@
+active: true
+derived: false
+level: 2.0
+links: []
+normative: false
+ref: ''
+reviewed: null
+text: |
+    GPSd setup and installation
+
+    * GPSd can be installed with the following line:
+    ```sudo apt-get install -y gpsd gpsd-clients libgps-dev```
+    * Install GeographicLib (for magnetic declination)
+    ```sudo apt-get install -y libgeographic-dev```
+    * Configure gpsd by adding the serial device(s) that the GPS/GNSS and AIS use to the DEVICES list in ```/etc/init.d/gpsd```.
+    * Reboot the Beaglebone Blue to pick up the new gpsd configuration.
+
+
