@@ -1,11 +1,9 @@
 active: true
 derived: false
-level: 1.4
+level: 1.5
 links: []
 normative: true
 ref: ''
-reviewed: null
+reviewed: f905da0fac74770db6edc8dc71024c11
 text: |
-    The magnetic declination **shall** be calculated based on the current location at intervals of seconds defined by the declination_update configuration option. This option **shall** default to 600 seconds. 
-
-    pGPSd **shall* calculate magnetic declination on the first GPS fix received. 
+  The magnetic declination **shall** be calculated based on the current location at intervals of seconds defined by the ```declination_update``` configuration option.

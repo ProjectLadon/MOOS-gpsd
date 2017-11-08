@@ -1,16 +1,9 @@
 active: true
 derived: false
-level: 1.3
+level: 1.4
 links: []
 normative: true
 ref: ''
-reviewed: null
+reviewed: 25b581d42d34f439cf770e5516dd2d26
 text: |
-    pGPSd **shall** publish the following data derived from the given members of gps_fix_t:
-
-    * GPSD_mode = gps_fix_t.mode -- this the GPS fix mode
-    * GPSD_latitude = gps_fix_t.latitude -- this is the latitude, in WGS84 decimal degrees
-    * GPSD_longitude = gps_fix_t.longitude -- this is the longitude, in WGS84 decimal degrees
-    * GPSD_elevation = gps_fix_t.altitude -- this is the altitude, in meters above the WGS84 datum
-    * GPSD_speed = gps_fix_t.speed -- this is the forward speed in meters per second
-    * GPSD_track = gps_fix_t.track -- this is the true course in degrees clockwise from north
+  pGPSd **shall** publish the following data derived from the given members of ```gps_fix_t``` on each tick:

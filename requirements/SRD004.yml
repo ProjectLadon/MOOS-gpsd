@@ -4,8 +4,6 @@ level: 1.2
 links: []
 normative: true
 ref: ''
-reviewed: null
+reviewed: 2cee5eac9ee7365a2e691a4041ab590d
 text: |
-    pGPSd **shall** subscribe to the JSON stream from gpsd.
-
-    Each AppTick, pGPSd **shall** publish the contents of the JSON buffer on the STRING variable GPSD_json. 
+  pGPSd **shall** subscribe to the JSON stream from gpsd.
