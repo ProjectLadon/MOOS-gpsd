@@ -103,7 +103,7 @@ void showInterfaceAndExit()
   blk("                                                                ");
   blk("PUBLICATIONS:                                                   ");
   blk("------------------------------------                            ");
-  blk("  Publications are determined by the node message content.      ");
+  blk("                                                                ");
   blk("  GPSD_json -- A STRING that contains a JSON array of all gpsd  ");
   blk("               packets received since last iteration.           ");
   blk("  GPSD_mode -- A DOUBLE containing the current GPS fix mode.    ");
