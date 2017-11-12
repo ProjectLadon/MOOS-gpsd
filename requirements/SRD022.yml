@@ -4,6 +4,6 @@ level: 1.1
 links: []
 normative: true
 ref: ''
-reviewed: f8a374003925879feb3f4ee8109b6a38
+reviewed: 0a126efa3a90d2f57ccd9e9a3045ca3a
 text: |
   pGPSd **shall** be implemented as an AppCasting MOOS app.
