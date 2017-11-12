@@ -1,0 +1,9 @@
+active: true
+derived: false
+level: 1.1
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  pGPSd **shall** be implemented as an AppCasting MOOS app.

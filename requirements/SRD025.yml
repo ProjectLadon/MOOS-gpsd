@@ -1,0 +1,9 @@
+active: true
+derived: false
+level: 1.8
+links: []
+normative: true
+ref: ''
+reviewed: null
+text: |
+  The appcast **shall** consist of all DOUBLE variables described above.
