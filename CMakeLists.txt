@@ -13,17 +13,10 @@ SET(SRC
 
 ADD_EXECUTABLE(pGPSd ${SRC})
 
-INCLUDE_DIRECTORIES(
-  ${CMAKE_CURRENT_SOURCE_DIR}/../moos-ivp/include 
-  ${CMAKE_CURRENT_SOURCE_DIR}/../moos-ivp/include/ivp)
-
-SET(MOOS_LIBRARIES
-  MOOS
-  ${CMAKE_CURRENT_SOURCE_DIR}/../moos-ivp/lib/libapputil.a
-  ${CMAKE_CURRENT_SOURCE_DIR}/../moos-ivp/lib/libmbutil.a)
-
 TARGET_LINK_LIBRARIES(pGPSd
   ${MOOS_LIBRARIES}
+  mbutil
+  apputil
   m
   pthread
   Geographic
