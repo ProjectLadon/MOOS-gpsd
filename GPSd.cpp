@@ -41,7 +41,7 @@ GPSd::GPSd() {
     m_gps_lon         = 0;
     m_gps_alt         = 0;
     m_gps_spd         = 0;
-    m_gps_trk         = 0;  
+    m_gps_trk         = 0;
 }
 
 //---------------------------------------------------------
@@ -68,7 +68,7 @@ bool GPSd::OnNewMail(MOOSMSG_LIST &NewMail)
        reportRunWarning("Unhandled Mail: " + key);
      }
    }
-	
+
    return(true);
 }
 
@@ -110,7 +110,7 @@ bool GPSd::Iterate()
     Notify("GPSD_elevation",  m_gps_alt);
     Notify("GPSD_speed",      m_gps_spd);
     Notify("GPSD_track",      m_gps_trk);
-    m_json_output = p_gpsd_receiver->data(); 
+    m_json_output = p_gpsd_receiver->data();
     Notify("GPSD_json", m_json_output);
   }
 
@@ -172,7 +172,7 @@ bool GPSd::OnStartUp()
   p_gpsdata = p_gpsd_receiver->read();
   p_gpsd_receiver->clear_fix();
 
-  registerVariables();	
+  registerVariables();
   return(true);
 }
 
@@ -189,23 +189,23 @@ void GPSd::registerVariables()
 //------------------------------------------------------------
 // Procedure: buildReport()
 
-bool GPSd::buildReport() 
+bool GPSd::buildReport()
 {
   m_msgs << "============================================ \n";
   m_msgs << "File: GPSd.cpp                               \n";
   m_msgs << "============================================ \n";
 
-  ACTable actab(8);
-  actab << "Mode | Lat | Lon | Alt | Speed | Track | Declination | JSON";
+  ACTable actab(7);
+  actab << "Mode | Lat | Lon | Alt | Speed | Track | Declination ";
   actab.addHeaderLines();
-  actab << m_gps_mode;
-  actab << m_gps_lat;
-  actab << m_gps_lon;
-  actab << m_gps_alt;
-  actab << m_gps_spd;
-  actab << m_gps_trk;
-  actab << m_json_output;
+  actab << to_string(m_gps_mode);
+  actab << to_string(m_gps_lat);
+  actab << to_string(m_gps_lon);
+  actab << to_string(m_gps_alt);
+  actab << to_string(m_gps_spd);
+  actab << to_string(m_gps_trk);
   m_msgs << actab.getFormattedString();
+  m_msgs << "Last JSON: " << m_json_output << endl;;
 
   return(true);
 }
@@ -222,15 +222,12 @@ double GPSd::getDeclination(double lat, double lon) {
   double Bx, By, Bz, H;
   // output values
   double strength, inclination, declination;
-  
+
   // Grab the magnetic components
   mag(utc_tm.tm_year + 1900, lat, lon, 0, Bx, By, Bz);
-  
+
   // convert intermediate representation to the output
   GeographicLib::MagneticModel::FieldComponents(Bx, By, Bz, H, strength, declination, inclination);
 
   return declination;
 }
-
-
-
