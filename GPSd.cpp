@@ -196,7 +196,7 @@ bool GPSd::buildReport()
   m_msgs << "============================================ \n";
 
   ACTable actab(7);
-  actab << "Mode | Lat | Lon | Alt | Speed | Track | Declination ";
+  actab << "Mode | Lat | Lon | Alt | Speed | Track | Mag Declination";
   actab.addHeaderLines();
   actab << to_string(m_gps_mode);
   actab << to_string(m_gps_lat);
@@ -204,7 +204,9 @@ bool GPSd::buildReport()
   actab << to_string(m_gps_alt);
   actab << to_string(m_gps_spd);
   actab << to_string(m_gps_trk);
-  m_msgs << actab.getFormattedString();
+  actab << to_string(m_mag_declination);
+  m_msgs << actab.getFormattedString() << endl;
+  m_msgs << "============================================ \n";
   m_msgs << "Last JSON: " << m_json_output << endl;;
 
   return(true);

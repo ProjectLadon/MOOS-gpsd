@@ -41,7 +41,7 @@ class GPSd : public AppCastingMOOSApp {
         static const int c_buf_len = 10000;
 
         // State variables
-        	double      m_mag_declination;
+        double      m_mag_declination;
         gps_data_t* p_gpsdata;
         //std::stringstream m_buf;
         std::string m_json_output;
