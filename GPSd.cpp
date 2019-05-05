@@ -168,7 +168,7 @@ bool GPSd::OnStartUp()
   }
 
   p_gpsd_receiver = new gpsmm(m_gpsd_host.c_str(), m_gpsd_port.c_str());
-  p_gpsd_receiver->stream(WATCH_ENABLE|WATCH_JSON);
+  p_gpsd_receiver->stream(WATCH_ENABLE|WATCH_JSON|WATCH_SCALED);
   p_gpsdata = p_gpsd_receiver->read();
   p_gpsd_receiver->clear_fix();
 
