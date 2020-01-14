@@ -22,3 +22,6 @@ This is a gpsd client for MOOS. It is intended to re-transmit every type of gpsd
 * GPSD_speed -- A DOUBLE containing the speed over ground in meters per second.
 * GPSD_track -- A DOUBLE containing the course over ground in degrees clockwise from true north. 
 * GPSD_declination -- A DOUBLE containing the magnetic declination, in degrees from true.
+
+## TODO
+* Parse AIS packets into contact reports
