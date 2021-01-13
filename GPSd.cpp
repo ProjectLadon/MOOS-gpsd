@@ -104,14 +104,14 @@ bool GPSd::Iterate()
     m_gps_alt                 = p_gpsdata->fix.altitude ;
     m_gps_spd                 = p_gpsdata->fix.speed;
     m_gps_trk                 = p_gpsdata->fix.track;
-    Notify("GPSD_mode",       m_gps_mode);
-    Notify("GPSD_latitude",   m_gps_lat);
-    Notify("GPSD_longitude",  m_gps_lon);
-    Notify("GPSD_elevation",  m_gps_alt);
-    Notify("GPSD_speed",      m_gps_spd);
-    Notify("GPSD_track",      m_gps_trk);
+    Notify("GPSD_MODE",       m_gps_mode);
+    Notify("GPSD_LATITUDE",   m_gps_lat);
+    Notify("GPSD_LONGITUDE",  m_gps_lon);
+    Notify("GPSD_ELEVATION",  m_gps_alt);
+    Notify("GPSD_SPEED",      m_gps_spd);
+    Notify("GPSD_TRACK",      m_gps_trk);
     m_json_output = p_gpsd_receiver->data();
-    Notify("GPSD_json", m_json_output);
+    Notify("GPSD_JSON", m_json_output);
   }
 
   if (((MOOSTime() - m_last_declination_time) > m_dec_duration) &&  // check if it's time to do another declination check
