@@ -1,6 +1,6 @@
 #--------------------------------------------------------
 # The CMakeLists.txt for:                       pGPSd
-# Author(s):                              
+# Author(s):
 #--------------------------------------------------------
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
@@ -20,5 +20,14 @@ TARGET_LINK_LIBRARIES(pGPSd
   m
   pthread
   Geographic
-  gps)
+gps)
 
+find_program(CTAGS ctags)
+if (CTAGS)
+	FIND_FILE(MAKE_CTAGS make_ctags.sh ../..)
+    ADD_CUSTOM_TARGET(gpsd_ctags ALL
+        ${MAKE_CTAGS} .
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        DEPENDS pGPSd
+    )
+endif(CTAGS)
